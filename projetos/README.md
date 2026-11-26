@@ -42,3 +42,21 @@ de avaliação utilizaram o código desses commits.
 | Projeto A | `projeto-a` | `6147a60d1cbfdce590dee6455a04b13dba3cc0a9` |
 | Projeto B | `projeto-b` | `f567ea6baa537ab1545cdda2dcddf3d0f4589ae7` |
 | Projeto C | `projeto-c` | `1bd2572d9b2159860c8913a10cbbaed78cfa9de2` |
+
+## Documentos de requisitos (cópias anonimizadas)
+
+| Arquivo | Páginas | SHA-256 |
+|---|---|---|
+| `projeto-a.pdf` | 90 | `37fae88a71a8e60751ba42872e9a11e9866dfd6b1007903413426e4be5934858` |
+| `projeto-b.pdf` | 37 | `197637f62ecd3414d6bb7a73a076c04010e8abf90672954f9a6c6041009a9936` |
+| `projeto-c.pdf` | 45 | `1592b0b541319eda35ead381a58c7b97e46e1ecf67e7f452302f6af3c8875698` |
+
+São os documentos utilizados no experimento. Em relação aos originais:
+
+- os nomes dos autores foram removidos da folha de rosto;
+- o nome do sistema foi removido do texto e dos três diagramas em que aparecia (no Projeto A, foi removida a
+  sigla; a descrição genérica do sistema, que coincide com o domínio, foi mantida); os espaços em branco no
+  texto indicam esses pontos;
+- os metadados dos arquivos foram apagados.
+
+A paginação e o conteúdo dos requisitos não foram alterados.
