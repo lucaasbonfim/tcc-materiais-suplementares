@@ -1,0 +1,85 @@
+{
+  "type": "object",
+  "properties": {
+    "apontamentos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "ambiguidade",
+              "omissao",
+              "inconsistencia"
+            ]
+          },
+          "segmentos": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 40
+            },
+            "minItems": 1,
+            "maxItems": 30
+          },
+          "descricao": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          },
+          "justificativa": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          }
+        },
+        "required": [
+          "tipo",
+          "segmentos",
+          "descricao",
+          "justificativa"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "maxItems": 400
+    },
+    "duvidas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "segmentos": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 40
+            },
+            "minItems": 0,
+            "maxItems": 30
+          },
+          "duvida": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          }
+        },
+        "required": [
+          "segmentos",
+          "duvida"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "maxItems": 100
+    }
+  },
+  "required": [
+    "apontamentos",
+    "duvidas"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,92 @@
+{
+  "type": "object",
+  "properties": {
+    "revisoes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "codigo_caso": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 60
+          },
+          "decisao": {
+            "type": "string",
+            "enum": [
+              "liberado",
+              "devolvido"
+            ]
+          },
+          "problemas": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "artefato": {
+                  "type": "string",
+                  "enum": [
+                    "teste_unitario"
+                  ]
+                },
+                "motivo": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 4000
+                },
+                "trechos": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "origem": {
+                        "type": "string",
+                        "enum": [
+                          "caso",
+                          "requisito",
+                          "teste"
+                        ]
+                      },
+                      "texto": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 4000
+                      }
+                    },
+                    "required": [
+                      "origem",
+                      "texto"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "minItems": 1,
+                  "maxItems": 20
+                }
+              },
+              "required": [
+                "artefato",
+                "motivo",
+                "trechos"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 0,
+            "maxItems": 20
+          }
+        },
+        "required": [
+          "codigo_caso",
+          "decisao",
+          "problemas"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "maxItems": 400
+    }
+  },
+  "required": [
+    "revisoes"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,174 @@
+{
+  "type": "object",
+  "properties": {
+    "avaliacoes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "codigo_caso": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 60
+          },
+          "classificacao": {
+            "type": "string",
+            "enum": [
+              "conforme",
+              "divergencia",
+              "erro_do_teste",
+              "erro_de_ambiente",
+              "requisito_ambiguo",
+              "inconclusivo"
+            ]
+          },
+          "segmento": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 40
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "trecho_requisito": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4000
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "registro": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "compilacao",
+                  "execucao"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "trecho_log": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4000
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "justificativa": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          },
+          "elementos_ausentes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            },
+            "minItems": 0,
+            "maxItems": 10
+          },
+          "devolucao": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "motivo": {
+                    "type": "string",
+                    "enum": [
+                      "D1",
+                      "D2",
+                      "D3",
+                      "D4",
+                      "D5"
+                    ]
+                  },
+                  "evidencias": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "tipo": {
+                          "type": "string",
+                          "enum": [
+                            "mensagem_do_compilador",
+                            "trecho_do_teste",
+                            "registro_da_excecao",
+                            "trecho_da_preparacao",
+                            "resultado_esperado",
+                            "trecho_do_requisito",
+                            "regra_do_caso",
+                            "trecho_da_verificacao",
+                            "resultado_da_execucao",
+                            "conteudo_do_caso"
+                          ]
+                        },
+                        "texto": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 4000
+                        }
+                      },
+                      "required": [
+                        "tipo",
+                        "texto"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "minItems": 1,
+                    "maxItems": 10
+                  }
+                },
+                "required": [
+                  "motivo",
+                  "evidencias"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "codigo_caso",
+          "classificacao",
+          "segmento",
+          "trecho_requisito",
+          "registro",
+          "trecho_log",
+          "justificativa",
+          "elementos_ausentes",
+          "devolucao"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "maxItems": 400
+    }
+  },
+  "required": [
+    "avaliacoes"
+  ],
+  "additionalProperties": false
+}

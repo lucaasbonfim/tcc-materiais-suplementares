@@ -1,0 +1,153 @@
+{
+  "type": "object",
+  "properties": {
+    "casos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id_regra": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
+          },
+          "titulo": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          },
+          "objetivo": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "segmentos": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 40
+            },
+            "minItems": 1,
+            "maxItems": 30
+          },
+          "pre_condicoes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1000
+            },
+            "minItems": 0,
+            "maxItems": 30
+          },
+          "dados_entrada": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1000
+            },
+            "minItems": 0,
+            "maxItems": 30
+          },
+          "passos": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1000
+            },
+            "minItems": 1,
+            "maxItems": 40
+          },
+          "resultado_esperado": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "tipo_cenario": {
+            "type": "string",
+            "enum": [
+              "positivo",
+              "negativo",
+              "alternativo",
+              "valor_limite"
+            ]
+          },
+          "tecnica": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "tecnica_justificativa": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "automatizavel": {
+            "type": "boolean"
+          },
+          "automatizacao_justificativa": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          }
+        },
+        "required": [
+          "id_regra",
+          "titulo",
+          "objetivo",
+          "segmentos",
+          "pre_condicoes",
+          "dados_entrada",
+          "passos",
+          "resultado_esperado",
+          "tipo_cenario",
+          "tecnica",
+          "tecnica_justificativa",
+          "automatizavel",
+          "automatizacao_justificativa"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "maxItems": 400
+    },
+    "duvidas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "segmentos": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 40
+            },
+            "minItems": 0,
+            "maxItems": 30
+          },
+          "duvida": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          }
+        },
+        "required": [
+          "segmentos",
+          "duvida"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "maxItems": 100
+    }
+  },
+  "required": [
+    "casos",
+    "duvidas"
+  ],
+  "additionalProperties": false
+}
