@@ -1,0 +1,9 @@
+package projetoc.domain.enums;
+
+public enum StatusReserva {
+    PENDENTE,
+    CONFIRMADA,
+    AGUARDANDO_APROVACAO,
+    CANCELADA,
+    EXPIRADA
+}
