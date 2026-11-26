@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${title} ?: 'Projeto B'">Projeto B</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("w-64");
+            sidebar.classList.toggle("w-16");
+            const labels = document.querySelectorAll(".sidebar-label");
+            labels.forEach(label => label.classList.toggle("hidden"));
+        }
+    </script>
+    <link rel="stylesheet" href="/css/table.css"/>
+</head>
+<body class="flex h-screen bg-gray-100">
+
+<!-- Sidebar -->
+<div id="sidebar" class="bg-white w-64 h-screen flex flex-col justify-between shadow-md transition-all duration-300">
+
+    <!-- Parte de cima: logo, menus -->
+    <div>
+        <!-- Cabeçalho -->
+        <div class="flex items-center justify-between p-4 border-b">
+            <span class="text-xl font-semibold sidebar-label" th:text="${usuarioLogado.operador.filial.nome}"></span>
+            <button onclick="toggleSidebar()" class="focus:outline-none">
+                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Menu (o seu <nav> vai aqui dentro normalmente) -->
+        <nav class="p-4 space-y-2">
+            <!-- Dashboard -->
+            <a href="/admin/home" class="flex items-center gap-2 p-2 rounded hover:bg-gray-200">
+                <i data-lucide="layout-dashboard" class="w-5 h-5 text-gray-700 flex-shrink-0"></i>
+                <span class="sidebar-label">Dashboard</span>
+            </a>
+
+            <div>
+                <!-- Administração -->
+                <button sec:authorize="hasAnyRole('ADMINISTRADOR')" onclick="toggleDropdown('dropdown-menu', 'dropdown-icon')" class="w-full flex items-center justify-between p-2 rounded hover:bg-gray-200 focus:outline-none">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="settings" class="w-5 h-5 text-gray-700 flex-shrink-0"></i>
+                        <span class="sidebar-label">Administração</span>
+                    </div>
+                    <i id="dropdown-icon" data-lucide="chevron-down" class="w-4 h-4 text-gray-600 transition-transform duration-200"></i>
+                </button>
+                <div sec:authorize="hasAnyRole('ADMINISTRADOR')" id="dropdown-menu" class="ml-7 mt-2 space-y-1 hidden">
+                    <a href="/admin/usuarios" class="block p-2 rounded hover:bg-gray-100 text-sm text-gray-700">Usuários</a>
+                    <a href="/admin/filiais" class="block p-2 rounded hover:bg-gray-100 text-sm text-gray-700">Filiais</a>
+                </div>
+
+                <!-- Veículos -->
+                <button onclick="toggleDropdown('dropdown-menu-veiculos', 'dropdown-icon-veiculos')" class="w-full flex items-center justify-between p-2 rounded hover:bg-gray-200 focus:outline-none">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="car" class="w-5 h-5 text-gray-700 flex-shrink-0"></i>
+                        <span class="sidebar-label">Veículos</span>
+                    </div>
+                    <i id="dropdown-icon-veiculos" data-lucide="chevron-down" class="w-4 h-4 text-gray-600 transition-transform duration-200"></i>
+                </button>
+                <div id="dropdown-menu-veiculos" class="ml-7 mt-2 space-y-1 hidden">
+                    <a href="/admin/modelos-veiculos" class="block p-2 rounded hover:bg-gray-100 text-sm text-gray-700">Modelos de Veículos</a>
+                    <a href="/admin/veiculos" class="block p-2 rounded hover:bg-gray-100 text-sm text-gray-700">Veículos</a>
+                    <a href="/admin/grupos" class="block p-2 rounded hover:bg-gray-100 text-sm text-gray-700">Grupos (Preços)</a>
+                    <a href="/admin/veiculos/compra" class="block p-2 rounded hover:bg-gray-100 text-sm text-gray-700">Compra</a>
+                    <a href="/admin/veiculos/venda" class="block p-2 rounded hover:bg-gray-100 text-sm text-gray-700">Venda</a>
+                    <a href="/admin/veiculos/solicitar-transferencia" class="block p-2 rounded hover:bg-gray-100 text-sm text-gray-700">Solicitar Transferência</a>
+                    <a href="/admin/veiculos/solicitacoes-transferencia" class="block p-2 rounded hover:bg-gray-100 text-sm text-gray-700">Solicitações de Transferência</a>
+                    <a href="/admin/veiculos/historico-transacoes" class="block p-2 rounded hover:bg-gray-100 text-sm text-gray-700">Histórico de Transações</a>
+                </div>
+
+                <!-- Reservas -->
+                <button onclick="toggleDropdown('dropdown-menu-reserva', 'dropdown-icon-reservas')" class="w-full flex items-center justify-between p-2 rounded hover:bg-gray-200 focus:outline-none">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="calendar-days" class="w-5 h-5 text-gray-700 flex-shrink-0"></i>
+                        <span class="sidebar-label">Reservas</span>
+                    </div>
+                    <i id="dropdown-icon-reservas" data-lucide="chevron-down" class="w-4 h-4 text-gray-600 transition-transform duration-200"></i>
+                </button>
+                <div id="dropdown-menu-reserva" class="ml-7 mt-2 space-y-1 hidden">
+                    <a href="/admin/reservas" class="block p-2 rounded hover:bg-gray-100 text-sm text-gray-700">Reservas</a>
+                    <a href="/admin/reservas/cadastro" class="block p-2 rounded hover:bg-gray-100 text-sm text-gray-700">Nova Reserva</a>
+                    <a href="/admin/reservas/virada-de-dia" class="block p-2 rounded hover:bg-gray-100 text-sm text-gray-700">Simular virada de dia</a>
+                </div>
+
+                <!-- Clientes -->
+                <button onclick="toggleDropdown('dropdown-menu-clientes', 'dropdown-icon-clientes')" class="w-full flex items-center justify-between p-2 rounded hover:bg-gray-200 focus:outline-none">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="users" class="w-5 h-5 text-gray-700 flex-shrink-0"></i>
+                        <span class="sidebar-label">Clientes</span>
+                    </div>
+                    <i id="dropdown-icon-clientes" data-lucide="chevron-down" class="w-4 h-4 text-gray-600 transition-transform duration-200"></i>
+                </button>
+                <div id="dropdown-menu-clientes" class="ml-7 mt-2 space-y-1 hidden">
+                    <a href="/admin/clientes" class="block p-2 rounded hover:bg-gray-100 text-sm text-gray-700">Listagem</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Parte de baixo: botão de logout -->
+    <form th:action="@{/admin/logout}" method="post" class="p-4">
+        <button type="submit"
+                class="w-full flex items-center gap-2 p-2 rounded text-red-600 hover:bg-red-100 font-semibold">
+            <i data-lucide="log-out" class="w-5 h-5 flex-shrink-0"></i>
+            <span class="sidebar-label">Sair</span>
+        </button>
+    </form>
+
+</div>
+<!-- Main Content -->
+<div class="flex flex-col flex-1 overflow-hidden">
+    <!-- Header -->
+    <header class="bg-white shadow p-4 flex justify-end items-center">
+        <span class="text-gray-700 font-medium">Olá, <span th:text="${usuarioLogado.nome}">Usuário !</span></span>
+    </header>
+    <!-- Mensagem de sucesso -->
+    <div th:if="${success}" class="mb-4 px-4 py-3 rounded bg-green-100 text-green-800 shadow">
+        <p th:text="${success}"></p>
+    </div>
+
+    <!-- Mensagem de erro -->
+    <div th:if="${error}" class="mb-4 px-4 py-3 rounded bg-red-100 text-red-800 shadow">
+        <p th:text="${error}"></p>
+    </div>
+    <!-- Erros de validacao -->
+    <div th:if="${erros}" class="bg-red-100 text-red-800 p-4 rounded shadow">
+        <ul>
+            <li th:each="erro : ${erros}" th:text="${erro}"></li>
+        </ul>
+    </div>
+
+    <!-- Notificação de transferencia de veículo -->
+    <a th:if="${notificacaoTransferencia}" th:href="@{/admin/veiculos/solicitacoes-transferencia}"
+       class="block mb-4 px-4 py-3 rounded bg-blue-100 text-blue-800 shadow hover:bg-blue-200 transition-colors">
+        <p>Existe uma solicitação de transação de veículo pendente!</p>
+    </a>
+
+
+    <!-- Conteúdo Principal -->
+    <main class="p-6 overflow-auto">
+        <div th:replace="${conteudo} :: content"></div>
+    </main>
+</div>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://unpkg.com/imask"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<script src="/js/table.js"></script>
+<script src="/js/masks.js"></script>
+
+<script>
+    lucide.createIcons();
+
+    function isSidebarOpen() {
+        const sidebar = document.getElementById("sidebar");
+        return sidebar.classList.contains("w-64");
+    }
+
+    function openSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        sidebar.classList.remove("w-16");
+        sidebar.classList.add("w-64");
+        document.querySelectorAll(".sidebar-label").forEach(label => label.classList.remove("hidden"));
+    }
+
+    function closeSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        sidebar.classList.remove("w-64");
+        sidebar.classList.add("w-16");
+        document.querySelectorAll(".sidebar-label").forEach(label => label.classList.add("hidden"));
+
+        // Fechar todos os dropdowns abertos
+        document.querySelectorAll('[id^="dropdown-menu"]').forEach(menu => {
+            if (!menu.classList.contains("hidden")) {
+                menu.classList.add("hidden");
+            }
+        });
+
+        // Resetar rotação dos ícones
+        document.querySelectorAll('[id^="dropdown-icon"]').forEach(icon => {
+            icon.classList.remove("rotate-180");
+        });
+    }
+
+    function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        if (sidebar.classList.contains("w-64")) {
+            closeSidebar();
+        } else {
+            openSidebar();
+        }
+    }
+
+    function toggleDropdown(menuId, iconId) {
+        const menu = document.getElementById(menuId);
+        const icon = document.getElementById(iconId);
+        if (!menu || !icon) return;
+
+        const wasHidden = menu.classList.contains("hidden");
+
+        // Fecha todos os outros dropdowns antes de abrir um
+        document.querySelectorAll('[id^="dropdown-menu"]').forEach(m => m.classList.add("hidden"));
+        document.querySelectorAll('[id^="dropdown-icon"]').forEach(i => i.classList.remove("rotate-180"));
+
+        // Se o menu estava oculto, vamos mostrar
+        if (wasHidden) {
+            if (!isSidebarOpen()) {
+                openSidebar(); // Garante que a sidebar estará aberta
+            }
+            menu.classList.remove("hidden");
+            icon.classList.add("rotate-180");
+        } else {
+            menu.classList.add("hidden");
+            icon.classList.remove("rotate-180");
+        }
+    }
+</script>
+</body>
+<script>
+</script>
+</html>

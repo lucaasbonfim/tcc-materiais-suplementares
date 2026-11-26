@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    url: REMOVIDO
+    username: REMOVIDO
+    password: REMOVIDO
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+  thymeleaf:
+    cache: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  web:
+    resources:
+      static-locations:
+        - classpath:/static/
+        - file:uploads/
+
+logging:
+  level:
+    org.springframework.security: DEBUG

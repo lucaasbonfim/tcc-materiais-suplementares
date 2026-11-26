@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Projeto B</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+</head>
+
+<body class="bg-zinc-100 h-screen">
+	<header class="h-24 bg-zinc-200 flex justify-between items-center md:px-96 px-10 shadow-md">
+		<div class="flex-1 flex justify-center">
+			<a th:href="@{/}" class="text-4xl font-bold text-zinc-700 text-center">Projeto B</a>
+		</div>
+
+		<div class="flex gap-4 items-center">
+			<div x-data="{ open: false }" class="relative">
+				<button @click="open = !open" class="text-2xl font-bold text-zinc-700">
+					&#8942;
+				</button>
+
+				<div x-show="open" @click.outside="open = false"
+					class="absolute right-0 mt-2 bg-white border border-zinc-300 rounded shadow-md p-2">
+					<a th:href="@{/reservas/{id}(id=${clienteId})}" class="block px-4 py-2 text-zinc-700 hover:bg-zinc-100">
+						Reservas
+					</a>
+				</div>
+			</div>
+
+			<form th:action="@{/logout}" method="post">
+				<button type="submit"
+					class="w-full flex items-center gap-2 p-2 rounded-lg text-zinc-700 hover:bg-zinc-300 font-semibold">
+					<span class="sidebar-label">Sair</span>
+				</button>
+			</form>
+		</div>
+	</header>
+
+	<div class="p-10 flex flex-col items-center justify-center">
+		<div x-data="{ open: false }" class="w-full md:max-w-4xl mx-auto mb-10 border border-zinc-300 rounded">
+			<button @click="open = !open"
+				class="w-full bg-zinc-700 text-white px-4 py-2 border border-zinc-300 rounded-t hover:bg-zinc-800">
+				<span x-show="!open">Mostrar filtros</span>
+				<span x-show="open">Ocultar filtros</span>
+			</button>
+
+			<form x-show="open" th:action="@{/}" method="get"
+				class=" flex flex-col md:flex-row items-center justify-center gap-4 p-4">
+
+				<select name="marca" class="rounded border border-zinc-300 p-2 w-full">
+					<option value="">Todas as marcas</option>
+					<option th:each="m : ${marcas}" th:value="${m}" th:text="${m}"
+						th:selected="${param.marca != null and param.marca[0] == m}">
+					</option>
+				</select>
+
+				<select name="modelo" class="rounded border border-zinc-300 p-2 w-full">
+					<option value="">Todos os modelos</option>
+					<option th:each="m : ${modelosDisponiveis}" th:value="${m}" th:text="${m}"
+						th:selected="${param.modelo != null and param.modelo[0] == m}">
+					</option>
+				</select>
+
+				<select name="ano" class="rounded border border-zinc-300 p-2 w-full">
+					<option value="">Todos os anos</option>
+					<option th:each="a : ${anos}" th:value="${a}" th:text="${a}"
+						th:selected="${param.ano != null and param.ano[0] == a}">
+					</option>
+				</select>
+
+				<select name="grupo" class="rounded border border-zinc-300 p-2 w-full">
+					<option value="">Todos os grupos</option>
+					<option th:each="g : ${grupos}" th:value="${g}" th:text="${g}"
+						th:selected="${param.grupo != null and param.grupo[0] == g}">
+					</option>
+				</select>
+
+				<button type="submit" class="rounded bg-zinc-700 px-4 py-2 text-white hover:bg-zinc-800 w-full">Filtrar</button>
+			</form>
+
+		</div>
+
+		<div class="sm:flex gap-12 sm:flex-col md:grid md:grid-cols-4 max-w-fit">
+
+			<div th:each="modelo : ${modelos}" th:if="${modelo.quantidade > 0}"
+				class="col-span-1 mb-4 flex flex-col items-center justify-center gap-1 rounded-lg border border-zinc-300 bg-zinc-100 p-4">
+
+				<div class="flex gap-1">
+					<p th:text="${modelo.marca}"></p>
+					<p th:text="${modelo.modelo}" class="before:mr-1 before:content-['-']"></p>
+				</div>
+
+				<p th:text="${modelo.grupo}"></p>
+				<div class="w-[300px]">
+					<img th:src="@{'../uploads/' + ${modelo.imagem}}" alt="Imagem"
+						class="w-full h-full object-cover rounded-lg border border-zinc-700" />
+				</div>
+
+				<p th:text="${modelo.ano}"></p>
+
+				<a th:href="@{/reserva/{modeloId}(modeloId=${modelo.id})}"
+					class="flex cursor-pointer items-center justify-center rounded-xl border px-4 py-0.5 text-sm hover:bg-zinc-300 border-zinc-700">Reservar
+				</a>
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="flex justify-center static items-center my-8 gap-2 md:fixed bottom-0 left-0 w-full h-[2.1875rem]">
+		<a th:if="${paginaAtual > 0}"
+			th:href="@{/(page=${paginaAtual - 1}, marca=${param.marca}, modelo=${param.modelo}, ano=${param.ano}, grupo=${param.grupo})}"
+			class="px-4 py-2 bg-zinc-200 rounded hover:bg-zinc-300 cursor-pointer">
+			Anterior
+		</a>
+
+		<span th:each="i : ${#numbers.sequence(0, totalPaginas - 1)}">
+			<a th:href="@{/(page=${i}, marca=${param.marca}, modelo=${param.modelo}, ano=${param.ano}, grupo=${param.grupo})}"
+				th:text="${i + 1}"
+				th:classappend="${i == paginaAtual} ? ' bg-zinc-700 text-white' : ' bg-zinc-200 hover:bg-zinc-300'"
+				class="px-4 py-2 rounded cursor-pointer">
+			</a>
+		</span>
+
+		<a th:if="${paginaAtual < totalPaginas - 1}"
+			th:href="@{/(page=${paginaAtual + 1}, marca=${param.marca}, modelo=${param.modelo}, ano=${param.ano}, grupo=${param.grupo})}"
+			class="px-4 py-2 bg-zinc-200 rounded hover:bg-zinc-300 cursor-pointer">
+			Próximo
+		</a>
+
+	</div>
+</body>
+
+</html>
