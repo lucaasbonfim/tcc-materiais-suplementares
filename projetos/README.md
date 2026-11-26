@@ -31,3 +31,14 @@ depois das alterações.
 ## Como conferir
 
 Calcule o SHA-256 de cada arquivo e compare com a tabela acima. Em um terminal: `sha256sum projeto-a.zip`.
+
+## Ramos utilizados no experimento
+
+O mesmo conteúdo de cada arquivo está em um ramo próprio deste repositório, com o `pom.xml` na raiz. As execuções
+de avaliação utilizaram o código desses commits.
+
+| Projeto | Ramo | Commit |
+|---|---|---|
+| Projeto A | `projeto-a` | `6147a60d1cbfdce590dee6455a04b13dba3cc0a9` |
+| Projeto B | `projeto-b` | `f567ea6baa537ab1545cdda2dcddf3d0f4589ae7` |
+| Projeto C | `projeto-c` | `1bd2572d9b2159860c8913a10cbbaed78cfa9de2` |
